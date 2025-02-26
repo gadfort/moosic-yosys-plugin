@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         submodules: recursive
 
@@ -34,11 +34,11 @@ jobs:
       run: |
         git clone https://github.com/YosysHQ/yosys --recurse-submodules; \
         cd yosys; make config-${{ matrix.compiler }}; \
-        make -j2 ENABLE_CCACHE=1 ${{ matrix.mode == 'Release' && 'ENABLE_NDEBUG=1' || '' }}; \
+        make -j$(nproc) ENABLE_CCACHE=1 ${{ matrix.mode == 'Release' && 'ENABLE_NDEBUG=1' || '' }}; \
         sudo make install; cd ..
 
     - name: Build
-      run: make -j2 ENABLE_WERROR=1; sudo make install
+      run: make -j$(nproc) ENABLE_WERROR=1; sudo make install
 
     - name: Download benchmarks
       run: bash test/download_benchmarks.sh
@@ -55,7 +55,7 @@ jobs:
 
     - name: Archive
       if: ${{ matrix.mode == 'Release' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: benchmark-results
         path: |
