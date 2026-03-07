@@ -250,7 +250,7 @@ bool SatAttack::findNewValidKey(std::vector<bool> &key)
 	bool success = sat.solve(keyLits, key, assume);
 
 	if (!success) {
-		if (sat.solverTimoutStatus) {
+		if (sat.solverTimeoutStatus) {
 			log_cmd_error("Time limit reached while solving the model\n");
 		}
 		key.clear();
@@ -299,7 +299,7 @@ bool SatAttack::findDIFromBestKey(std::vector<bool> &inputs, std::vector<bool> &
 	bool success = sat.solve(query, res, assume);
 
 	if (!success) {
-		if (sat.solverTimoutStatus) {
+		if (sat.solverTimeoutStatus) {
 			log_cmd_error("Time limit reached while solving the model\n");
 		}
 		return false;
@@ -353,7 +353,7 @@ bool SatAttack::findDI(std::vector<bool> &inputs, std::vector<bool> &key1, std::
 	bool success = sat.solve(query, res, assume);
 
 	if (!success) {
-		if (sat.solverTimoutStatus) {
+		if (sat.solverTimeoutStatus) {
 			log_cmd_error("Time limit reached while solving the model\n");
 		}
 		return false;
